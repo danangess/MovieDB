@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MovieDB</string>
+    <string name="action_settings">Settings</string>
+    <string name="refresh">Refresh</string>
+    <string name="movie_image">Movie Image</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="poster">poster</string>
+</resources>
