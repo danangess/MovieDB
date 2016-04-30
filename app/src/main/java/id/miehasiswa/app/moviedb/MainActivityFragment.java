@@ -104,7 +104,7 @@ public class MainActivityFragment extends Fragment {
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         //String location = prefs.getString(getString(R.string.pref_location_key),
         //getString(R.string.pref_location_default));
-        movieTask.execute("popular");
+        movieTask.execute("top_rated");
     }
 
     @Override
@@ -163,7 +163,7 @@ public class MainActivityFragment extends Fragment {
                 // http://openweathermap.org/API#forecast
                 String BASE_URL = "http://api.themoviedb.org/3/movie/" + sort + "?";
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendQueryParameter("api_key", "27a6fa74e99cc439af862247080f2f17")
+                        .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_KEY)
                         .build();
 
                 URL url = new URL(builtUri.toString());
