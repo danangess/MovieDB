@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by danang on 29/04/16.
@@ -32,9 +31,9 @@ public class ImageListAdapter extends ArrayAdapter<Movie> {
         ImageView imageViewMovie = (ImageView) convertView.findViewById(R.id.list_item_movie_image);
         Picasso.with(getContext())
                 .load(movie.getPosterPath())
+                .placeholder(R.drawable.progress_animation)
                 .into(imageViewMovie);
 
         return convertView;
-        //return imageViewMovie;
     }
 }

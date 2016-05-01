@@ -5,4 +5,6 @@
     <string name="movie_image">Movie Image</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="poster">poster</string>
+    <string name="title">Title</string>
+    <string name="favorite">Favorite</string>
 </resources>

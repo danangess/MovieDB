@@ -55,10 +55,9 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        //ArrayList<Movie> arrayList = new ArrayList<>();
         imageListAdapter = new ImageListAdapter(getActivity(), arrayList);
 
         GridView gridViewMovie = (GridView) rootView.findViewById(R.id.gridview_movie);
@@ -85,7 +84,7 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.movie_menu, menu);
+        inflater.inflate(R.menu.menu_forecast_main, menu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -94,17 +93,26 @@ public class MainActivityFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
+            updateMovie("popular");
+            return true;
+        } else if (id == R.id.action_popular) {
+            updateMovie("popular");
+            return true;
+        } else if (id == R.id.action_top_rated) {
+            updateMovie("top_rated");
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateMovie(String params) {
+        FetchMovieTask movieTask = new FetchMovieTask();
+        movieTask.execute(params);
+    }
     private void updateMovie() {
         FetchMovieTask movieTask = new FetchMovieTask();
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        //String location = prefs.getString(getString(R.string.pref_location_key),
-        //getString(R.string.pref_location_default));
-        movieTask.execute("top_rated");
+        movieTask.execute("popular");
     }
 
     @Override
@@ -134,17 +142,20 @@ public class MainActivityFragment extends Fragment {
                 movie.setPosterPath(base_path + jsonObjectMovie.getString("poster_path"));
                 movie.setTitle(jsonObjectMovie.getString("title"));
                 movie.setOverview(jsonObjectMovie.getString("overview"));
-                movie.setVoteAverage(jsonObjectMovie.getInt("vote_average"));
+                movie.setVoteAverage(jsonObjectMovie.getDouble("vote_average"));
                 movie.setReleaseDate(jsonObjectMovie.getString("release_date"));
                 resultMovie[i] = movie;
             }
             return resultMovie;
         }
+
         @Override
         protected Movie[] doInBackground(String... params) {
             // If there's no zip code, there's nothing to look up.  Verify size of params.
+            String sort = params[0];
             if (params.length == 0) {
-                return null;
+                sort = "popular";
+                //return null;
             }
 
             // These two need to be declared outside the try/catch
@@ -155,7 +166,6 @@ public class MainActivityFragment extends Fragment {
 
             // Will contain the raw JSON response as a string.
             //Movie movie = null;
-            String sort = params[0];
 
             try {
                 // Construct the URL for the OpenWeatherMap query
