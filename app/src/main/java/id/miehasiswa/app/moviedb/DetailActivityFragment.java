@@ -47,7 +47,6 @@ public class DetailActivityFragment extends Fragment {
         textViewRate.setText(movie.getVoteAverage() + "/" + movie.getVoteMax());
         textViewOverview.setText(movie.getOverview());
 
-
         return rootView;
     }
 

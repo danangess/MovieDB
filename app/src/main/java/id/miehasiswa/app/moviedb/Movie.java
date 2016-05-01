@@ -14,14 +14,6 @@ public class Movie implements Parcelable {
     private String title            = null;
     private Double vote_average     = null;
 
-//    public Movie(Movie movie) {
-//        this.overview       = movie.overview;
-//        this.release_date   = movie.release_date;
-//        this.title          = movie.title;
-//        this.vote_average   = movie.vote_average;
-//        this.poster_path    = movie.poster_path;
-//    }
-
     public Movie(){}
 
     protected Movie(Parcel in) {

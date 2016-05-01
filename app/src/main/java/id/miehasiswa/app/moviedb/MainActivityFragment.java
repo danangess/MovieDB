@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,15 +41,13 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Add this line in order for this fragment to handle menu events.
+        setHasOptionsMenu(true);
 
         if (savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
             arrayList = new ArrayList<>();
         } else {
             arrayList = savedInstanceState.getParcelableArrayList("movies");
         }
-
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -106,13 +103,12 @@ public class MainActivityFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateMovie() {
+        updateMovie("popular");
+    }
     private void updateMovie(String params) {
         FetchMovieTask movieTask = new FetchMovieTask();
         movieTask.execute(params);
-    }
-    private void updateMovie() {
-        FetchMovieTask movieTask = new FetchMovieTask();
-        movieTask.execute("popular");
     }
 
     @Override
@@ -126,15 +122,12 @@ public class MainActivityFragment extends Fragment {
         private Movie[] getMovieDataFromJson(String movieJsonString) throws JSONException {
             JSONObject jsonObject = new JSONObject(movieJsonString);
             JSONArray jsonArrayResults = jsonObject.getJSONArray("results");
-            Time time = new Time();
-            time.setToNow();
 
-            //int julianDay = Time.getJulianDay(System.currentTimeMillis(), time.gmtoff);
-            //time = new Time();
             Movie[] resultMovie = new Movie[jsonArrayResults.length()];
 
             String image_size = "w185";
             String base_path = "http://image.tmdb.org/t/p/" + image_size;
+
             for (int i = 0; i < jsonArrayResults.length(); i++) {
                 Movie movie = new Movie();
 
@@ -151,11 +144,9 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected Movie[] doInBackground(String... params) {
-            // If there's no zip code, there's nothing to look up.  Verify size of params.
             String sort = params[0];
             if (params.length == 0) {
                 sort = "popular";
-                //return null;
             }
 
             // These two need to be declared outside the try/catch
@@ -164,13 +155,7 @@ public class MainActivityFragment extends Fragment {
             BufferedReader reader = null;
             String movieJsonString = null;
 
-            // Will contain the raw JSON response as a string.
-            //Movie movie = null;
-
             try {
-                // Construct the URL for the OpenWeatherMap query
-                // Possible parameters are avaiable at OWM's forecast API page, at
-                // http://openweathermap.org/API#forecast
                 String BASE_URL = "http://api.themoviedb.org/3/movie/" + sort + "?";
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_KEY)
@@ -178,7 +163,7 @@ public class MainActivityFragment extends Fragment {
 
                 URL url = new URL(builtUri.toString());
 
-                // Create the request to OpenWeatherMap, and open the connection
+                // Create the request to TheMovieDB, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
@@ -187,7 +172,6 @@ public class MainActivityFragment extends Fragment {
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
-                    // Nothing to do.
                     return null;
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -223,7 +207,9 @@ public class MainActivityFragment extends Fragment {
 
             try {
                 return getMovieDataFromJson(movieJsonString);
-            }catch (Exception e){}
+            }catch (Exception e){
+                Log.e("Log", "Error get movies", e);
+            }
 
             return null;
         }
