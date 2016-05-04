@@ -13,6 +13,7 @@ public class Movie implements Parcelable {
     private Double vote_max         = 10.0;
     private String title            = null;
     private Double vote_average     = null;
+    private String time             = null;
 
     public Movie(){}
 
@@ -23,6 +24,7 @@ public class Movie implements Parcelable {
         title           = in.readString();
         vote_average    = in.readDouble();
         vote_max        = in.readDouble();
+        time            = in.readString();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -42,6 +44,7 @@ public class Movie implements Parcelable {
     public void setReleaseDate(String releaseDate) {this.release_date = releaseDate;}
     public void setVoteAverage(Double vote_average) {this.vote_average = vote_average;}
     public void setPosterPath(String poster_path) {this.poster_path = poster_path;}
+    public void setTime(String time) {this.time = time;}
 
     public String getTitle() {return this.title;}
     public String getOverview() {return this.overview;}
@@ -49,6 +52,7 @@ public class Movie implements Parcelable {
     public Double getVoteAverage() {return this.vote_average;}
     public Double getVoteMax() {return this.vote_max;}
     public String getPosterPath() {return this.poster_path;}
+    public String getTime() {return this.time;}
 
     @Override
     public int describeContents() {
@@ -63,5 +67,6 @@ public class Movie implements Parcelable {
         dest.writeString(title);
         dest.writeDouble(vote_average);
         dest.writeDouble(vote_max);
+        dest.writeString(time);
     }
 }

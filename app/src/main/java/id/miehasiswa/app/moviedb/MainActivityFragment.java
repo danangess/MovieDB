@@ -132,11 +132,14 @@ public class MainActivityFragment extends Fragment {
                 Movie movie = new Movie();
 
                 JSONObject jsonObjectMovie = jsonArrayResults.getJSONObject(i);
+
                 movie.setPosterPath(base_path + jsonObjectMovie.getString("poster_path"));
                 movie.setTitle(jsonObjectMovie.getString("title"));
                 movie.setOverview(jsonObjectMovie.getString("overview"));
                 movie.setVoteAverage(jsonObjectMovie.getDouble("vote_average"));
                 movie.setReleaseDate(jsonObjectMovie.getString("release_date"));
+                movie.setTime(jsonObjectMovie.getString("release_date"));
+
                 resultMovie[i] = movie;
             }
             return resultMovie;

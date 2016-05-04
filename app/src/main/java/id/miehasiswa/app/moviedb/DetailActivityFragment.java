@@ -14,6 +14,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -27,9 +33,6 @@ public class DetailActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        Intent intent = getActivity().getIntent();
-
-        Movie movie = intent.getParcelableExtra("movie");
 
         TextView textViewTitle = (TextView) rootView.findViewById(R.id.tVTitle);
         TextView textViewYear = (TextView) rootView.findViewById(R.id.tVYear);
@@ -38,12 +41,22 @@ public class DetailActivityFragment extends Fragment {
         TextView textViewOverview = (TextView) rootView.findViewById(R.id.tVOverview);
         ImageView imageViewPoster = (ImageView) rootView.findViewById(R.id.iVMovie);
 
+        Intent intent = getActivity().getIntent();
+        Movie movie = intent.getParcelableExtra("movie");
+
         Picasso.with(getActivity())
                 .load(movie.getPosterPath())
                 .into(imageViewPoster);
         textViewTitle.setText(movie.getTitle());
-        textViewYear.setText(movie.getReleaseDate());
-        textViewTime.setText(movie.getReleaseDate());
+        try {
+            Date date = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH).parse(movie.getReleaseDate());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            textViewYear.setText(String.valueOf(calendar.get(Calendar.YEAR)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        textViewTime.setText(movie.getTime());
         textViewRate.setText(movie.getVoteAverage() + "/" + movie.getVoteMax());
         textViewOverview.setText(movie.getOverview());
 
@@ -59,9 +72,6 @@ public class DetailActivityFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_refresh) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_refresh || super.onOptionsItemSelected(item);
     }
 }
