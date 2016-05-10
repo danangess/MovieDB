@@ -6,12 +6,4 @@
         android:id="@+id/action_refresh"
         android:title="@string/refresh"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_popular"
-        android:title="Popular"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_top_rated"
-        android:title="Top Rated"
-        app:showAsAction="never" />
 </menu>

@@ -1,8 +1,10 @@
 package id.miehasiswa.app.moviedb;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,7 +83,7 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_forecast_main, menu);
+        inflater.inflate(R.menu.menu_fragment_main, menu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -90,13 +92,7 @@ public class MainActivityFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            updateMovie("popular");
-            return true;
-        } else if (id == R.id.action_popular) {
-            updateMovie("popular");
-            return true;
-        } else if (id == R.id.action_top_rated) {
-            updateMovie("top_rated");
+            updateMovie();
             return true;
         }
 
@@ -104,11 +100,10 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void updateMovie() {
-        updateMovie("popular");
-    }
-    private void updateMovie(String params) {
         FetchMovieTask movieTask = new FetchMovieTask();
-        movieTask.execute(params);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String sort = sharedPreferences.getString(getString(R.string.prefs_sort_key), getString(R.string.prefs_sort_default_value));
+        movieTask.execute(sort.toLowerCase());
     }
 
     @Override
