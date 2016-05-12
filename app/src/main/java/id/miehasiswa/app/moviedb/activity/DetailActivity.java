@@ -1,9 +1,12 @@
-package id.miehasiswa.app.moviedb;
+package id.miehasiswa.app.moviedb.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import id.miehasiswa.app.moviedb.fragment.DetailActivityFragment;
+import id.miehasiswa.app.moviedb.R;
 
 public class DetailActivity extends ActionBarActivity {
 

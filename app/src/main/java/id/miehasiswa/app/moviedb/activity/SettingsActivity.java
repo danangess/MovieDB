@@ -1,4 +1,4 @@
-package id.miehasiswa.app.moviedb;
+package id.miehasiswa.app.moviedb.activity;
 
 
 import android.annotation.TargetApi;
@@ -23,6 +23,8 @@ import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
 import java.util.List;
+
+import id.miehasiswa.app.moviedb.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

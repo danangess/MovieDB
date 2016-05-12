@@ -1,10 +1,13 @@
-package id.miehasiswa.app.moviedb;
+package id.miehasiswa.app.moviedb.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import id.miehasiswa.app.moviedb.fragment.MainActivityFragment;
+import id.miehasiswa.app.moviedb.R;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -17,6 +20,7 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new MainActivityFragment())
                     .commit();
         }
+        getSupportActionBar().setElevation(0f);
     }
 
     @Override

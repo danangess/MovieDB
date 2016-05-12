@@ -1,4 +1,4 @@
-package id.miehasiswa.app.moviedb;
+package id.miehasiswa.app.moviedb.fragment;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -19,6 +19,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import id.miehasiswa.app.moviedb.Movie;
+import id.miehasiswa.app.moviedb.R;
 
 /**
  * A placeholder fragment containing a simple view.

@@ -1,6 +1,6 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="id.miehasiswa.app.moviedb.DetailActivity">
+    tools:context=".activity.DetailActivity">
 
 </menu>

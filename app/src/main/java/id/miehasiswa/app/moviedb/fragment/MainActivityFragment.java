@@ -1,4 +1,4 @@
-package id.miehasiswa.app.moviedb;
+package id.miehasiswa.app.moviedb.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,12 +29,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import id.miehasiswa.app.moviedb.BuildConfig;
+import id.miehasiswa.app.moviedb.MovieAdapter;
+import id.miehasiswa.app.moviedb.Movie;
+import id.miehasiswa.app.moviedb.R;
+import id.miehasiswa.app.moviedb.activity.DetailActivity;
+
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
-    private ImageListAdapter imageListAdapter;
+    private MovieAdapter movieAdapter;
     private ArrayList<Movie> arrayList;
 
     public MainActivityFragment() {
@@ -57,17 +63,17 @@ public class MainActivityFragment extends Fragment {
                              final Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        imageListAdapter = new ImageListAdapter(getActivity(), arrayList);
+        movieAdapter = new MovieAdapter(getActivity(), arrayList);
 
         GridView gridViewMovie = (GridView) rootView.findViewById(R.id.gridview_movie);
-        gridViewMovie.setAdapter(imageListAdapter);
+        gridViewMovie.setAdapter(movieAdapter);
 
         gridViewMovie.setClickable(true);
         gridViewMovie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra("movie", imageListAdapter.getItem(position));
+                intent.putExtra("movie", movieAdapter.getItem(position));
                 startActivity(intent);
             }
         });
@@ -215,9 +221,9 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(Movie[] result) {
             if (result != null) {
-                imageListAdapter.clear();
+                movieAdapter.clear();
                 for(Movie image : result) {
-                    imageListAdapter.add(image);
+                    movieAdapter.add(image);
                 }
             }
         }

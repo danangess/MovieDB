@@ -14,9 +14,9 @@ import java.util.ArrayList;
 /**
  * Created by danang on 29/04/16.
  */
-public class ImageListAdapter extends ArrayAdapter<Movie> {
+public class MovieAdapter extends ArrayAdapter<Movie> {
 
-    public ImageListAdapter(Activity context, ArrayList<Movie> movies) {
+    public MovieAdapter(Activity context, ArrayList<Movie> movies) {
         super(context, 0, movies);
     }
 
