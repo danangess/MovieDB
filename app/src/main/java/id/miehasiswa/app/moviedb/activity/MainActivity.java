@@ -6,8 +6,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import id.miehasiswa.app.moviedb.fragment.MainActivityFragment;
 import id.miehasiswa.app.moviedb.R;
+import id.miehasiswa.app.moviedb.fragment.DetailActivityFragment;
+import id.miehasiswa.app.moviedb.fragment.MainActivityFragment;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -15,10 +16,19 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainActivityFragment())
-                    .commit();
+
+        if (findViewById(R.id.container_detail_tablet) != null) {
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_detail_tablet, new DetailActivityFragment())
+                        .commit();
+            }
+        } else {
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.container, new MainActivityFragment())
+                        .commit();
+            }
         }
         getSupportActionBar().setElevation(0f);
     }

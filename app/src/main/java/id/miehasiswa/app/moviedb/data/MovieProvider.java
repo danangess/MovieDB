@@ -348,9 +348,18 @@ public class MovieProvider extends ContentProvider {
                                     value.getAsString(
                                             MovieEntry.COLUMN_ID)
                                     + " but value is already in database.");
+
+                            Cursor cursor = db.query(MovieEntry.TABLE_NAME, new String[]{MovieEntry.COLUMN_FAVORITE}, MovieEntry.COLUMN_ID + " = ?", new String[]{value.getAsString(MovieEntry.COLUMN_ID)}, null, null, null, "1");
+                            if (cursor.moveToFirst()) {
+                                int id_movie = value.getAsInteger(MovieEntry.COLUMN_ID);
+                                int fav = cursor.getInt(cursor.getColumnIndex(MovieEntry.COLUMN_FAVORITE));
+                                value.put(MovieEntry.COLUMN_FAVORITE, fav);
+                                _id = db.update(MovieEntry.TABLE_NAME, value, MovieEntry.COLUMN_ID + " =?", new String[]{String.valueOf(id_movie)});
+                            }
                         }
                         if (_id != -1) {
                             numInserted++;
+                            Log.d("bulkInsert", "Inserted Movie " + value.getAsString(MovieEntry.COLUMN_ID));
                         }
                     }
                     if (numInserted > 0) {
@@ -389,6 +398,7 @@ public class MovieProvider extends ContentProvider {
                         }
                         if (_id != -1) {
                             numInserted++;
+                            Log.d("bulkInsert", "Inserted Video " + value.getAsString(VideoEntry.COLUMN_ID));
                         }
                     }
                     if (numInserted > 0) {
@@ -427,6 +437,7 @@ public class MovieProvider extends ContentProvider {
                         }
                         if (_id != -1) {
                             numInserted++;
+                            Log.d("bulkInsert", "Inserted Review " + value.getAsString(ReviewEntry.COLUMN_ID));
                         }
                     }
                     if (numInserted > 0) {

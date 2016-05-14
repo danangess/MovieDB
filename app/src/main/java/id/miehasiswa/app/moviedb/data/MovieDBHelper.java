@@ -15,7 +15,7 @@ import id.miehasiswa.app.moviedb.data.MovieContract.ReviewEntry;
 public class MovieDBHelper extends SQLiteOpenHelper {
     //name & version
     private static final String DATABASE_NAME = "movies.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
 
     public MovieDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,7 +37,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                 MovieEntry.COLUMN_VOTE_COUNT + " INTEGER NOT NULL, " +
                 MovieEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL, " +
                 MovieEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL, " +
-                " UNIQUE (" + MovieEntry.COLUMN_ID + ") ON CONFLICT REPLACE);";
+                " UNIQUE (" + MovieEntry.COLUMN_ID + ") ON CONFLICT ABORT);";
 
         final String SQL_CREATE_VIDEO_TABLE = "CREATE TABLE " +
                 VideoEntry.TABLE_NAME + " (" +
