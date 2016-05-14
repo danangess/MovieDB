@@ -10,30 +10,26 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import id.miehasiswa.app.moviedb.FetchMovieTask;
-import id.miehasiswa.app.moviedb.adapter.MovieAdapter;
 import id.miehasiswa.app.moviedb.R;
-import id.miehasiswa.app.moviedb.Utility;
 import id.miehasiswa.app.moviedb.activity.DetailActivity;
-import id.miehasiswa.app.moviedb.data.MovieContract.MovieEntry;
-
+import id.miehasiswa.app.moviedb.adapter.MovieAdapter;
+import id.miehasiswa.app.moviedb.data.MovieContract;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment
+
+// TODO : update table agar table movie kolom favorite tidak ter-reset
+public class FavoriteActivityFragment
         extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public MainActivityFragment() {
+    public FavoriteActivityFragment() {
     }
 
     private MovieAdapter movieAdapter;
@@ -58,14 +54,11 @@ public class MainActivityFragment
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         movieAdapter = new MovieAdapter(getActivity(), null, 0);
 
-        gridViewMovie = (GridView) rootView.findViewById(R.id.gridview_movie);
-        if (gridViewMovie == null) {
-            Log.d("grid", "null");
-        }
+        gridViewMovie = (GridView) rootView.findViewById(R.id.gridview_movie_fav);
         gridViewMovie.setAdapter(movieAdapter);
 
         gridViewMovie.setClickable(true);
@@ -75,8 +68,8 @@ public class MainActivityFragment
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 if (cursor != null) {
                     Intent intent = new Intent(getActivity(), DetailActivity.class);
-                    int MOVIE_ID = cursor.getColumnIndex(MovieEntry._ID);
-                    Uri uriMovie = MovieEntry.buildMovieWithId(cursor.getInt(MOVIE_ID));
+                    int MOVIE_ID = cursor.getColumnIndex(MovieContract.MovieEntry._ID);
+                    Uri uriMovie = MovieContract.MovieEntry.buildMovieWithId(cursor.getInt(MOVIE_ID));
 
                     intent.setData(uriMovie);
                     startActivity(intent);
@@ -99,53 +92,15 @@ public class MainActivityFragment
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_fragment_main, menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_refresh) {
-            updateMovie();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void updateMovie() {
-        FetchMovieTask movieTask = new FetchMovieTask(getActivity());
-        String sort = Utility.getPreferredSortBy(getActivity());
-        movieTask.execute(sort.toLowerCase());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        updateMovie();
-    }
-
-    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.d("onCreateLoader = ", String.valueOf(id));
-        String sortOrder;
-        String sort = Utility.getPreferredSortBy(getActivity());
-
-        if (sort.equals(getString(R.string.prefs_sort_default_value))) {
-            sortOrder = MovieEntry.COLUMN_POPULARITY + " DESC";
-        } else {
-            sortOrder = MovieEntry.COLUMN_VOTE_AVERAGE + " DESC";
-        }
 
         return new CursorLoader(getActivity(),
-                MovieEntry.CONTENT_URI,
-                new String[]{MovieEntry._ID, MovieEntry.COLUMN_POSTER_PATH},
-                null,
-                null,
-                sortOrder + " LIMIT 20");
+                MovieContract.MovieEntry.CONTENT_URI,
+                new String[]{MovieContract.MovieEntry._ID, MovieContract.MovieEntry.COLUMN_POSTER_PATH},
+                MovieContract.MovieEntry.COLUMN_FAVORITE + " = ?",
+                new String[]{"1"},
+                null);
     }
 
     @Override
@@ -153,8 +108,6 @@ public class MainActivityFragment
         Log.d("onLoadFinished = ", String.valueOf(data.getCount()));
         movieAdapter.swapCursor(data);
         if (mPosition != GridView.INVALID_POSITION) {
-            // If we don't need to restart the loader, and there's a desired position to restore
-            // to, do so now.
             gridViewMovie.smoothScrollToPosition(mPosition);
         }
     }

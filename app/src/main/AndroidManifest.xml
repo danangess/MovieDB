@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name=".activity.DetailActivity"
+            android:icon="@mipmap/ic_launcher"
             android:label="@string/activity.details.title"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
@@ -30,8 +31,22 @@
         </activity>
         <activity
             android:name=".activity.SettingsActivity"
+            android:icon="@mipmap/ic_launcher"
             android:label="@string/activity.settings.title"
-            android:theme="@style/SettingsTheme"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/SettingsTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+
+        <provider
+            android:name=".data.MovieProvider"
+            android:authorities="id.miehasiswa.app.moviedb" />
+
+        <activity
+            android:name=".activity.FavoriteActivity"
+            android:label="@string/title_activity_favorite"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

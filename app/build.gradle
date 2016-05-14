@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "id.miehasiswa.app.moviedb"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 21
         versionCode 1
-        versionName "0.1"
+        versionName "0.2"
     }
     buildTypes {
         release {
@@ -25,10 +25,19 @@ android {
 repositories {
     mavenCentral()
 }
+repositories {
+    maven {
+        url "https://s3.amazonaws.com/repo.commonsware.com"
+    }
+}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:recyclerview-v7:21.0.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:support-v4:21.0.3'
+
+
+    compile 'com.commonsware.cwac:merge:1.1.+'
 }

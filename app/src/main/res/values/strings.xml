@@ -46,7 +46,7 @@
     <!-- Strings for Syncing -->
     <string name="sync.account.type">popmovies.example.com</string>
 
-    <!-- Strings for the content provider -->
+    <!-- Strings for the content data -->
     <string name="content.authority">az.aldoziflaj.popmovies</string>
 
     <string name="notification.content">Did you check the new movies today?</string>
@@ -54,5 +54,9 @@
     <string name="poster">Poster</string>
     <string name="favorite">Favorite</string>
     <string name="refresh">Refresh</string>
+    <string name="author">Author</string>
+    <string name="content">Content</string>
+    <string name="title_activity_favorite">FavoriteActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
